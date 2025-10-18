@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mateo Orozco Baldovino - Portafolio (JS)</title>
+  <style>
+    /* Copié el estilo original para mantener la apariencia; sigue siendo una sola página pero construida desde JS */
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;line-height:1.6;color:#2c3e50;background:#f8f9fa}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+    header{background:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 100%);color:#fff;padding:3rem 0;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.1);background-position:center center}
+    .profile-section{display:flex;flex-direction:column;align-items:center;gap:1rem}
+    .profile-img{width:150px;height:150px;border-radius:50%;background:#64748b;display:flex;align-items:center;justify-content:center;font-size:3rem;border:4px solid #fff;box-shadow:0 4px 15px rgba(0,0,0,.2)}
+    .profile-info h1{font-size:2.5rem;margin-bottom:.5rem;font-weight:300}
+    .profile-info p{font-size:1.2rem;opacity:.9}
+    nav{background:#fff;padding:1rem 0;box-shadow:0 2px 5px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
+    nav ul{list-style:none;display:flex;justify-content:center;gap:2rem}
+    nav a{text-decoration:none;color:#475569;font-weight:500;padding:.5rem 1rem;border-radius:25px;transition:all .3s}
+    nav a:hover,nav a.active{background:#3b82f6;color:#fff;transform:translateY(-2px)}
+    section{padding:4rem 0;opacity:0;transform:translateY(30px);transition:all .6s}
+    section.visible{opacity:1;transform:translateY(0)}
+    .section-title{text-align:center;font-size:2.5rem;color:#1e3a8a;margin-bottom:3rem;position:relative}
+    .section-title::after{content:'';display:block;width:80px;height:3px;background:#3b82f6;margin:1rem auto;border-radius:2px}
+    .about-content{background:#fff;padding:3rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;max-width:800px;margin:0 auto}
+    .about-content p{font-size:1.1rem;color:#64748b;margin-bottom:1.5rem}
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-top:2rem}
+    .skill-card{background:#fff;padding:2rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;transition:all .3s}
+    .skill-card:hover{transform:translateY(-10px);box-shadow:0 10px 30px rgba(0,0,0,.15)}
+    .skill-icon{width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#1e3a8a);border-radius:15px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:#fff;font-size:1.5rem}
+    .skill-card h3{color:#1e3a8a;margin-bottom:1rem}
+    .skill-card p{color:#64748b;font-size:.9rem}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem;margin-top:2rem}
+    .project-card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.1);transition:all .3s}
+    .project-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,.15)}
+    .project-img{height:200px;background:linear-gradient(135deg,#64748b,#94a3b8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:3rem}
+    .project-content{padding:2rem}
+    .project-content h3{color:#1e3a8a;margin-bottom:1rem}
+    .project-content p{color:#64748b;margin-bottom:1.5rem}
+    .project-tags{display:flex;gap:.5rem;flex-wrap:wrap}
+    .tag{background:#e2e8f0;color:#475569;padding:.3rem .8rem;border-radius:20px;font-size:.8rem}
+    .contact-content{background:#fff;padding:3rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;max-width:600px;margin:0 auto}
+    .contact-info{display:flex;justify-content:center;gap:3rem;margin-top:2rem;flex-wrap:wrap}
+    .contact-item{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+    .contact-icon{width:50px;height:50px;background:linear-gradient(135deg,#3b82f6,#1e3a8a);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem}
+    .contact-item a{color:#475569;text-decoration:none;font-weight:500}
+    .contact-item a:hover{color:#3b82f6}
+    footer{background:#1e3a8a;color:#fff;text-align:center;padding:2rem 0}
+    @media(max-width:768px){nav ul{flex-direction:column;gap:1rem}.profile-info h1{font-size:2rem}.section-title{font-size:2rem}.contact-info{flex-direction:column;gap:2rem}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .animate-in{animation:fadeInUp .6s ease forwards}
+  </style>
+</head>
+<body>
+  <!-- root donde JS construirá el portafolio -->
+  <div id="app"></div>
+
+  <script>
+    // Datos del portafolio (fácil de editar)
+    const PORTFOLIO = {
+      name: 'Mateo Orozco Baldovino',
+      title: 'Analista de Datos',
+      about: [
+        'Soy un analista de datos apasionado por transformar información compleja en insights accionables. Con experiencia en el manejo de grandes volúmenes de datos, me especializo en crear visualizaciones claras y análisis profundos que impulsan la toma de decisiones estratégicas.',
+        'Mi enfoque se centra en encontrar patrones ocultos en los datos y comunicar hallazgos de manera efectiva a equipos técnicos y no técnicos.'
+      ],
+      skills: [
+        {icon: '📊', title: 'Análisis de Datos', desc: 'Experiencia en análisis estadístico, limpieza de datos, y extracción de insights valiosos para la toma de decisiones.'},
+        {icon: '📈', title: 'Visualización', desc: 'Creación de dashboards interactivos y reportes visuales utilizando herramientas como Tableau, Power BI y Python.'},
+        {icon: '🐍', title: 'Python & R', desc: 'Programación avanzada en Python y R para análisis de datos, machine learning y automatización de procesos.'},
+        {icon: '🗄️', title: 'SQL & Bases de Datos', desc: 'Manejo experto de SQL para consultas complejas, optimización de bases de datos y ETL processes.'}
+      ],
+      projects: [
+        {emoji: '📊', title: 'Análisis de Ventas Retail', desc: 'Dashboard interactivo para análisis de tendencias de ventas, identificación de productos estrella y optimización de inventario.', tags:['Python','Pandas','Tableau','SQL']},
+        {emoji: '🤖', title: 'Modelo Predictivo', desc: 'Desarrollo de modelo de machine learning para predicción de churn de clientes con 85% de precisión.', tags:['Python','Scikit-learn','Machine Learning','PostgreSQL']},
+        {emoji: '📈', title: 'Dashboard Financiero', desc: 'Sistema de monitoreo en tiempo real de KPIs financieros con alertas automáticas y reportes ejecutivos.', tags:['Power BI','DAX','Excel','API']}
+      ],
+      contact: {
+        email: 'mateo.orozco@email.com',
+        linkedin: 'https://linkedin.com/in/mateo-orozco',
+        github: 'https://github.com/mateo-orozco'
+      }
+    };
+
+    // Helpers para crear elementos
+    function el(tag, attrs = {}, children = []) {
+      const node = document.createElement(tag);
+      for (const k in attrs) {
+        if (k === 'class') node.className = attrs[k];
+        else if (k === 'html') node.innerHTML = attrs[k];
+        else node.setAttribute(k, attrs[k]);
+      }
+      children.forEach(c => node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
+      return node;
+    }
+
+    // Construir header
+    function buildHeader(data) {
+      const header = el('header', {}, [
+        el('div', {class: 'container'}, [
+          el('div', {class: 'profile-section'}, [
+            el('div', {class: 'profile-img', html: '👨‍💻'}),
+            el('div', {class: 'profile-info'}, [
+              el('h1', {}, [document.createTextNode(data.name)]),
+              el('p', {}, [document.createTextNode(data.title)])
+            ])
+          ])
+        ])
+      ]);
+      return header;
+    }
+
+    // Construir navegación
+    function buildNav() {
+      const nav = el('nav', {}, [
+        el('div', {class: 'container'}, [
+          el('ul', {}, [
+            navLink('about', 'Sobre Mí'),
+            navLink('skills', 'Habilidades'),
+            navLink('projects', 'Proyectos'),
+            navLink('contact', 'Contacto')
+          ])
+        ])
+      ]);
+      return nav;
+
+      function navLink(id, text) {
+        const li = el('li');
+        const a = el('a', {href: `#${id}`, class: 'nav-link'}, [document.createTextNode(text)]);
+        li.appendChild(a);
+        return li;
+      }
+    }
+
+    // Sección genérica
+    function section(id, title, contentEl) {
+      return el('section', {id}, [
+        el('div', {class: 'container'}, [
+          el('h2', {class: 'section-title'}, [document.createTextNode(title)]),
+          contentEl
+        ])
+      ]);
+    }
+
+    // About
+    function buildAbout(data) {
+      const box = el('div', {class: 'about-content'});
+      data.about.forEach(p => box.appendChild(el('p', {}, [document.createTextNode(p)])));
+      return section('about', 'Sobre Mí', box);
+    }
+
+    // Skills
+    function buildSkills(data) {
+      const grid = el('div', {class: 'skills-grid'});
+      data.skills.forEach(s => {
+        const card = el('div', {class: 'skill-card'}, [
+          el('div', {class: 'skill-icon', html: s.icon}),
+          el('h3', {}, [document.createTextNode(s.title)]),
+          el('p', {}, [document.createTextNode(s.desc)])
+        ]);
+        grid.appendChild(card);
+      });
+      return section('skills', 'Habilidades', grid);
+    }
+
+    // Projects
+    function buildProjects(data) {
+      const grid = el('div', {class: 'projects-grid'});
+      data.projects.forEach(p => {
+        const card = el('div', {class: 'project-card'}, [
+          el('div', {class: 'project-img', html: p.emoji}),
+          el('div', {class: 'project-content'}, [
+            el('h3', {}, [document.createTextNode(p.title)]),
+            el('p', {}, [document.createTextNode(p.desc)]),
+            el('div', {class: 'project-tags'}, p.tags.map(t => el('span', {class: 'tag'}, [document.createTextNode(t)])))
+          ])
+        ]);
+        grid.appendChild(card);
+      });
+      return section('projects', 'Proyectos', grid);
+    }
+
+    // Contact
+    function buildContact(data) {
+      const box = el('div', {class: 'contact-content'}, [
+        el('p', {}, [document.createTextNode('¿Interesado en colaborar? Me encantaría conocer más sobre tu proyecto y cómo puedo ayudarte a extraer valor de tus datos.')]),
+        el('div', {class: 'contact-info'}, [
+          contactItem('📧', el('a', {href: `mailto:${data.contact.email}`}, [document.createTextNode(data.contact.email)])),
+          contactItem('💼', el('a', {href: data.contact.linkedin, target: '_blank'}, [document.createTextNode('LinkedIn')])),
+          contactItem('🐙', el('a', {href: data.contact.github, target: '_blank'}, [document.createTextNode('GitHub')]))
+        ])
+      ]);
+      return section('contact', 'Contacto', box);
+
+      function contactItem(icon, node) {
+        return el('div', {class: 'contact-item'}, [
+          el('div', {class: 'contact-icon', html: icon}),
+          node
+        ]);
+      }
+    }
+
+    // Footer
+    function buildFooter(name) {
+      return el('footer', {}, [
+        el('div', {class: 'container'}, [
+          el('p', {}, [document.createTextNode(`© 2025 ${name}. Todos los derechos reservados.`)])
+        ])
+      ]);
+    }
+
+    // Montar todo en #app
+    function mount() {
+      const app = document.getElementById('app');
+      app.appendChild(buildHeader(PORTFOLIO));
+      app.appendChild(buildNav());
+
+      const main = el('main');
+      main.appendChild(buildAbout(PORTFOLIO));
+      main.appendChild(buildSkills(PORTFOLIO));
+      main.appendChild(buildProjects(PORTFOLIO));
+      main.appendChild(buildContact(PORTFOLIO));
+
+      app.appendChild(main);
+      app.appendChild(buildFooter(PORTFOLIO.name));
+
+      initInteractions();
+    }
+
+    // Interacciones (misma lógica que el original, implementada con delegación segura)
+    function initInteractions() {
+      // Smooth scroll y active nav
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+          const targetId = this.getAttribute('href').substring(1);
+          const targetSection = document.getElementById(targetId);
+          targetSection.scrollIntoView({behavior:'smooth',block:'start'});
+        });
+      });
+
+      // Intersection observer para animar secciones y actualizar nav
+      const observerOptions = {threshold:0.1, rootMargin:'0px 0px -50px 0px'};
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            const id = entry.target.getAttribute('id');
+            if (id) {
+              document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${id}`) link.classList.add('active');
+              });
+            }
+          }
+        });
+      }, observerOptions);
+      document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+      // Hover effects en cards (únicamente estilo inline para compatibilidad)
+      document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+        card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-10px)');
+        card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
+      });
+
+      // Entrada animada del header
+      window.addEventListener('load', () => {
+        const profileSection = document.querySelector('.profile-section');
+        if (profileSection) profileSection.classList.add('animate-in');
+      });
+
+      // Parallax suave
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const header = document.querySelector('header');
+        if (header) header.style.backgroundPosition = `center ${scrolled * -0.5}px`;
+      });
+    }
+
+    // Inicializar montaje
+    mount();
+
+    // Exponer datos globalmente para edición rápida desde consola (opcional)
+    window.PORTFOLIO = PORTFOLIO;
+  </script>
+</body>
+</html>
