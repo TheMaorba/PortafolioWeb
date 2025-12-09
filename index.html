@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mateo Orozco Baldovino - Portafolio (JS)</title>
+  <title>Mateo Orozco Baldovino - Portafolio</title>
   <style>
     /* Estilos Generales y Reseteo */
     *{margin:0;padding:0;box-sizing:border-box}
@@ -14,26 +14,19 @@
     header{background:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 100%);color:#fff;padding:3rem 0;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.1);background-position:center center}
     .profile-section{display:flex;flex-direction:column;align-items:center;gap:1rem}
 
-    /* MODIFICACIÓN 1: Estilos para el contenedor de la foto */
     .profile-img{
       width:150px;
       height:150px;
       border-radius:50%;
-      /* background: #64748b; <--- Eliminado, la imagen lo cubre */
-      /* display:flex; <--- Eliminado, innecesario con <img> dentro */
-      /* align-items:center; <--- Eliminado */
-      /* justify-content:center; <--- Eliminado */
-      /* font-size:3rem; <--- Eliminado */
       border:4px solid #fff;
       box-shadow:0 4px 15px rgba(0,0,0,.2);
-      overflow: hidden; /* Importante para el recorte circular */
+      overflow: hidden;
     }
 
-    /* MODIFICACIÓN 2: Estilos para la imagen real */
     .actual-profile-pic {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Asegura que la imagen cubra el círculo sin distorsión */
+      object-fit: cover;
       display: block;
     }
 
@@ -42,9 +35,10 @@
 
     /* Navegación */
     nav{background:#fff;padding:1rem 0;box-shadow:0 2px 5px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
-    nav ul{list-style:none;display:flex;justify-content:center;gap:2rem}
+    nav ul{list-style:none;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap}
     nav a{text-decoration:none;color:#475569;font-weight:500;padding:.5rem 1rem;border-radius:25px;transition:all .3s}
     nav a:hover,nav a.active{background:#3b82f6;color:#fff;transform:translateY(-2px)}
+
     
     /* Secciones Generales */
     section{padding:4rem 0;opacity:0;transform:translateY(30px);transition:all .6s}
@@ -64,6 +58,15 @@
     .skill-card h3{color:#1e3a8a;margin-bottom:1rem}
     .skill-card p{color:#64748b;font-size:.9rem}
 
+    /* NUEVA: Sección Software */
+    .software-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:2rem}
+    .software-card{background:#fff;padding:1.5rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:1rem}
+    .software-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,.15)}
+    .software-logo{width:60px;height:60px;object-fit:contain;border-radius:8px}
+    .software-card h3{color:#1e3a8a;font-size:1.1rem;margin:0}
+    .software-level{width:100%;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-top:.5rem}
+    .software-level-fill{height:100%;background:linear-gradient(135deg,#3b82f6,#1e3a8a);border-radius:3px;transition:width .6s ease}
+
     /* Sección Proyectos */
     .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem;margin-top:2rem}
     .project-card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.1);transition:all .3s}
@@ -75,19 +78,21 @@
     .project-tags{display:flex;gap:.5rem;flex-wrap:wrap}
     .tag{background:#e2e8f0;color:#475569;padding:.3rem .8rem;border-radius:20px;font-size:.8rem}
 
-    /* Sección Contacto */
-    .contact-content{background:#fff;padding:3rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;max-width:600px;margin:0 auto}
-    .contact-info{display:flex;justify-content:center;gap:3rem;margin-top:2rem;flex-wrap:wrap}
-    .contact-item{display:flex;flex-direction:column;align-items:center;gap:.5rem}
-    .contact-icon{width:50px;height:50px;background:linear-gradient(135deg,#3b82f6,#1e3a8a);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem}
-    .contact-item a{color:#475569;text-decoration:none;font-weight:500}
-    .contact-item a:hover{color:#3b82f6}
+   /* Sección Contacto */
+.contact-content{background:#fff;padding:3rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;max-width:600px;margin:0 auto}
+.contact-info{display:flex;justify-content:center;gap:3rem;margin-top:2rem;flex-wrap:wrap}
+.contact-item{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.contact-icon{width:50px;height:50px;background:#f8f9fa;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:10px;transition:all .3s}
+.contact-icon:hover{transform:scale(1.1);background:#e2e8f0}
+.contact-icon img{width:100%;height:100%;object-fit:contain}
+.contact-item a{color:#475569;text-decoration:none;font-weight:500}
+.contact-item a:hover{color:#3b82f6}
     
     /* Footer */
     footer{background:#1e3a8a;color:#fff;text-align:center;padding:2rem 0}
     
     /* Responsive y Animaciones */
-    @media(max-width:768px){nav ul{flex-direction:column;gap:1rem}.profile-info h1{font-size:2rem}.section-title{font-size:2rem}.contact-info{flex-direction:column;gap:2rem}}
+    @media(max-width:768px){nav ul{gap:1rem}.profile-info h1{font-size:2rem}.section-title{font-size:2rem}.contact-info{flex-direction:column;gap:2rem}}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
     .animate-in{animation:fadeInUp .6s ease forwards}
   </style>
@@ -96,13 +101,10 @@
   <div id="app"></div>
 
   <script>
-    // ----------------------------------------
     // DATOS DE CONFIGURACIÓN
-    // ----------------------------------------
     const PORTFOLIO = {
       name: 'Mateo Orozco Baldovino',
       title: 'Analista de Datos',
-      // Añadimos la URL de la imagen aquí para fácil configuración. Aqui se añadio la informacion de la foto aportada por la persona nueva
       profilePic: 'Imagen/mateo.jpeg', 
       about: [
         'Soy un analista de datos apasionado por transformar información compleja en insights accionables. Con experiencia en el manejo de grandes volúmenes de datos, me especializo en crear visualizaciones claras y análisis profundos que impulsan la toma de decisiones estratégicas.',
@@ -113,6 +115,19 @@
         {icon: '📈', title: 'Visualización', desc: 'Creación de dashboards interactivos y reportes visuales utilizando herramientas como Tableau, Power BI y Python.'},
         {icon: '🐍', title: 'Python & R', desc: 'Programación avanzada en Python y R para análisis de datos, machine learning y automatización de procesos.'},
         {icon: '🗄️', title: 'SQL & Bases de Datos', desc: 'Manejo experto de SQL para consultas complejas, optimización de bases de datos y ETL processes.'}
+      ],
+      // NUEVA: Lista de software con logos
+      software: [
+        {name: 'Python', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg', level: 90},
+        {name: 'R', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/r/r-original.svg', level: 85},
+        {name: 'SQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg', level: 90},
+        {name: 'Tableau', logo: 'https://cdn.worldvectorlogo.com/logos/tableau-software.svg', level: 85},
+        {name: 'Power BI', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg', level: 80},
+        {name: 'Excel', logo: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="70" font-size="70">📊</text></svg>', level: 95},
+        {name: 'Pandas', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg', level: 90},
+        {name: 'Git', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg', level: 85},
+        {name: 'PostgreSQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', level: 85},
+        {name: 'Jupyter', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg', level: 90}
       ],
       projects: [
         {emoji: '📊', title: 'Análisis de Ventas Retail', desc: 'Dashboard interactivo para análisis de tendencias de ventas, identificación de productos estrella y optimización de inventario.', tags:['Python','Pandas','Tableau','SQL']},
@@ -126,9 +141,7 @@
       }
     };
 
-    // ----------------------------------------
     // HELPERS DE DOM
-    // ----------------------------------------
     function el(tag, attrs = {}, children = []) {
       const node = document.createElement(tag);
       for (const k in attrs) {
@@ -140,11 +153,8 @@
       return node;
     }
 
-    // ----------------------------------------
     // CONSTRUCCIÓN DE SECCIONES
-    // ----------------------------------------
 
-    // Construir header (MODIFICADO para incluir <img>)
     function buildHeader(data) {
       const profileImg = el('img', {
         src: data.profilePic,
@@ -155,7 +165,7 @@
       const header = el('header', {}, [
         el('div', {class: 'container'}, [
           el('div', {class: 'profile-section'}, [
-            el('div', {class: 'profile-img'}, [profileImg]), /* INSERTAMOS LA IMAGEN */
+            el('div', {class: 'profile-img'}, [profileImg]),
             el('div', {class: 'profile-info'}, [
               el('h1', {}, [document.createTextNode(data.name)]),
               el('p', {}, [document.createTextNode(data.title)])
@@ -166,13 +176,13 @@
       return header;
     }
 
-    // Construir navegación
     function buildNav() {
       const nav = el('nav', {}, [
         el('div', {class: 'container'}, [
           el('ul', {}, [
             navLink('about', 'Sobre Mí'),
             navLink('skills', 'Habilidades'),
+            navLink('software', 'Software'),
             navLink('projects', 'Proyectos'),
             navLink('contact', 'Contacto')
           ])
@@ -188,7 +198,6 @@
       }
     }
 
-    // Sección genérica
     function section(id, title, contentEl) {
       return el('section', {id}, [
         el('div', {class: 'container'}, [
@@ -198,14 +207,12 @@
       ]);
     }
 
-    // About
     function buildAbout(data) {
       const box = el('div', {class: 'about-content'});
       data.about.forEach(p => box.appendChild(el('p', {}, [document.createTextNode(p)])));
       return section('about', 'Sobre Mí', box);
     }
 
-    // Skills
     function buildSkills(data) {
       const grid = el('div', {class: 'skills-grid'});
       data.skills.forEach(s => {
@@ -219,7 +226,30 @@
       return section('skills', 'Habilidades', grid);
     }
 
-    // Projects
+    // NUEVA: Sección de Software
+    function buildSoftware(data) {
+      const grid = el('div', {class: 'software-grid'});
+      data.software.forEach(s => {
+        const logo = el('img', {
+          src: s.logo,
+          alt: `Logo de ${s.name}`,
+          class: 'software-logo'
+        });
+        
+        const levelBar = el('div', {class: 'software-level'}, [
+          el('div', {class: 'software-level-fill', style: `width: ${s.level}%`})
+        ]);
+        
+        const card = el('div', {class: 'software-card'}, [
+          logo,
+          el('h3', {}, [document.createTextNode(s.name)]),
+          levelBar
+        ]);
+        grid.appendChild(card);
+      });
+      return section('software', 'Software y Herramientas', grid);
+    }
+
     function buildProjects(data) {
       const grid = el('div', {class: 'projects-grid'});
       data.projects.forEach(p => {
@@ -236,27 +266,31 @@
       return section('projects', 'Proyectos', grid);
     }
 
-    // Contact
-    function buildContact(data) {
-      const box = el('div', {class: 'contact-content'}, [
-        el('p', {}, [document.createTextNode('¿Interesado en colaborar? Me encantaría conocer más sobre tu proyecto y cómo puedo ayudarte a extraer valor de tus datos.')]),
-        el('div', {class: 'contact-info'}, [
-          contactItem('📧', el('a', {href: `mailto:${data.contact.email}`}, [document.createTextNode(data.contact.email)])),
-          contactItem('💼', el('a', {href: data.contact.linkedin, target: '_blank'}, [document.createTextNode('LinkedIn')])),
-          contactItem('🐙', el('a', {href: data.contact.github, target: '_blank'}, [document.createTextNode('GitHub')]))
-        ])
-      ]);
-      return section('contact', 'Contacto', box);
+function buildContact(data) {
+  const box = el('div', {class: 'contact-content'}, [
+    el('p', {}, [document.createTextNode('¿Interesado en colaborar? Me encantaría conocer más sobre tu proyecto y cómo puedo ayudarte a extraer valor de tus datos.')]),
+    el('div', {class: 'contact-info'}, [
+      // CAMBIÉ los emojis por URLs de logos reales
+      contactItem('https://img.icons8.com/fluency/96/email.png', 'Email', el('a', {href: `mailto:${data.contact.email}`}, [document.createTextNode(data.contact.email)])),
+      contactItem('https://img.icons8.com/color/96/linkedin.png', 'LinkedIn', el('a', {href: data.contact.linkedin, target: '_blank'}, [document.createTextNode('LinkedIn')])),
+      contactItem('https://img.icons8.com/fluency/96/github.png', 'GitHub', el('a', {href: data.contact.github, target: '_blank'}, [document.createTextNode('GitHub')]))
+    ])
+  ]);
+  return section('contact', 'Contacto', box);
 
-      function contactItem(icon, node) {
-        return el('div', {class: 'contact-item'}, [
-          el('div', {class: 'contact-icon', html: icon}),
-          node
-        ]);
-      }
-    }
+  // MODIFIQUÉ la función para aceptar URL y crear un <img>
+  function contactItem(logoUrl, altText, node) {
+    const logo = el('img', {
+      src: logoUrl,
+      alt: altText
+    });
+    return el('div', {class: 'contact-item'}, [
+      el('div', {class: 'contact-icon'}, [logo]),  // Ahora contiene <img> en lugar de emoji
+      node
+    ]);
+  }
+}
 
-    // Footer
     function buildFooter(name) {
       return el('footer', {}, [
         el('div', {class: 'container'}, [
@@ -265,9 +299,7 @@
       ]);
     }
 
-    // ----------------------------------------
     // INICIALIZACIÓN Y MONTAJE
-    // ----------------------------------------
     function mount() {
       const app = document.getElementById('app');
       app.appendChild(buildHeader(PORTFOLIO));
@@ -276,23 +308,20 @@
       const main = el('main');
       main.appendChild(buildAbout(PORTFOLIO));
       main.appendChild(buildSkills(PORTFOLIO));
+      main.appendChild(buildSoftware(PORTFOLIO)); // NUEVA SECCIÓN
       main.appendChild(buildProjects(PORTFOLIO));
       main.appendChild(buildContact(PORTFOLIO));
 
       app.appendChild(main);
       app.appendChild(buildFooter(PORTFOLIO.name));
 
-      // Iniciamos las interacciones después de que todo el DOM esté montado
       initInteractions();
       
-      // Aseguramos que la primera sección visible tenga la clase
       const firstSection = document.querySelector('main section');
       if (firstSection) firstSection.classList.add('visible');
     }
 
-    // Interacciones (misma lógica que el original)
     function initInteractions() {
-      // Smooth scroll y active nav
       document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
@@ -304,7 +333,6 @@
         });
       });
 
-      // Intersection observer para animar secciones y actualizar nav
       const observerOptions = {threshold:0.1, rootMargin:'0px 0px -50px 0px'};
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -322,7 +350,6 @@
       }, observerOptions);
       document.querySelectorAll('section').forEach(s => observer.observe(s));
 
-      // Parallax suave
       window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const header = document.querySelector('header');
@@ -330,7 +357,6 @@
       });
     }
 
-    // Inicializar montaje
     mount();
   </script>
 </body>
