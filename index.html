@@ -5,40 +5,66 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mateo Orozco Baldovino - Portafolio (JS)</title>
   <style>
-    /* Copié el estilo original para mantener la apariencia; sigue siendo una sola página pero construida desde JS */
+    /* Estilos Generales y Reseteo */
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;line-height:1.6;color:#2c3e50;background:#f8f9fa}
     .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+    /* Header y Perfil */
     header{background:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 100%);color:#fff;padding:3rem 0;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.1);background-position:center center}
     .profile-section{display:flex;flex-direction:column;align-items:center;gap:1rem}
-    .profile-img{width:150px;
+
+    /* MODIFICACIÓN 1: Estilos para el contenedor de la foto */
+    .profile-img{
+      width:150px;
       height:150px;
       border-radius:50%;
-      background:#64748b;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:3rem;
+      /* background: #64748b; <--- Eliminado, la imagen lo cubre */
+      /* display:flex; <--- Eliminado, innecesario con <img> dentro */
+      /* align-items:center; <--- Eliminado */
+      /* justify-content:center; <--- Eliminado */
+      /* font-size:3rem; <--- Eliminado */
       border:4px solid #fff;
-      box-shadow:0 4px 15px rgba(0,0,0,.2)}
+      box-shadow:0 4px 15px rgba(0,0,0,.2);
+      overflow: hidden; /* Importante para el recorte circular */
+    }
+
+    /* MODIFICACIÓN 2: Estilos para la imagen real */
+    .actual-profile-pic {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Asegura que la imagen cubra el círculo sin distorsión */
+      display: block;
+    }
+
     .profile-info h1{font-size:2.5rem;margin-bottom:.5rem;font-weight:300}
     .profile-info p{font-size:1.2rem;opacity:.9}
+
+    /* Navegación */
     nav{background:#fff;padding:1rem 0;box-shadow:0 2px 5px rgba(0,0,0,.1);position:sticky;top:0;z-index:100}
     nav ul{list-style:none;display:flex;justify-content:center;gap:2rem}
     nav a{text-decoration:none;color:#475569;font-weight:500;padding:.5rem 1rem;border-radius:25px;transition:all .3s}
     nav a:hover,nav a.active{background:#3b82f6;color:#fff;transform:translateY(-2px)}
+    
+    /* Secciones Generales */
     section{padding:4rem 0;opacity:0;transform:translateY(30px);transition:all .6s}
     section.visible{opacity:1;transform:translateY(0)}
     .section-title{text-align:center;font-size:2.5rem;color:#1e3a8a;margin-bottom:3rem;position:relative}
     .section-title::after{content:'';display:block;width:80px;height:3px;background:#3b82f6;margin:1rem auto;border-radius:2px}
+
+    /* Sección Sobre Mí */
     .about-content{background:#fff;padding:3rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;max-width:800px;margin:0 auto}
     .about-content p{font-size:1.1rem;color:#64748b;margin-bottom:1.5rem}
+    
+    /* Sección Habilidades */
     .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-top:2rem}
     .skill-card{background:#fff;padding:2rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;transition:all .3s}
     .skill-card:hover{transform:translateY(-10px);box-shadow:0 10px 30px rgba(0,0,0,.15)}
     .skill-icon{width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#1e3a8a);border-radius:15px;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:#fff;font-size:1.5rem}
     .skill-card h3{color:#1e3a8a;margin-bottom:1rem}
     .skill-card p{color:#64748b;font-size:.9rem}
+
+    /* Sección Proyectos */
     .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem;margin-top:2rem}
     .project-card{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.1);transition:all .3s}
     .project-card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,.15)}
@@ -48,27 +74,36 @@
     .project-content p{color:#64748b;margin-bottom:1.5rem}
     .project-tags{display:flex;gap:.5rem;flex-wrap:wrap}
     .tag{background:#e2e8f0;color:#475569;padding:.3rem .8rem;border-radius:20px;font-size:.8rem}
+
+    /* Sección Contacto */
     .contact-content{background:#fff;padding:3rem;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);text-align:center;max-width:600px;margin:0 auto}
     .contact-info{display:flex;justify-content:center;gap:3rem;margin-top:2rem;flex-wrap:wrap}
     .contact-item{display:flex;flex-direction:column;align-items:center;gap:.5rem}
     .contact-icon{width:50px;height:50px;background:linear-gradient(135deg,#3b82f6,#1e3a8a);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem}
     .contact-item a{color:#475569;text-decoration:none;font-weight:500}
     .contact-item a:hover{color:#3b82f6}
+    
+    /* Footer */
     footer{background:#1e3a8a;color:#fff;text-align:center;padding:2rem 0}
+    
+    /* Responsive y Animaciones */
     @media(max-width:768px){nav ul{flex-direction:column;gap:1rem}.profile-info h1{font-size:2rem}.section-title{font-size:2rem}.contact-info{flex-direction:column;gap:2rem}}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
     .animate-in{animation:fadeInUp .6s ease forwards}
   </style>
 </head>
 <body>
-  <!-- root donde JS construirá el portafolio -->
   <div id="app"></div>
 
   <script>
-    // Datos del portafolio (fácil de editar)
+    // ----------------------------------------
+    // DATOS DE CONFIGURACIÓN
+    // ----------------------------------------
     const PORTFOLIO = {
       name: 'Mateo Orozco Baldovino',
       title: 'Analista de Datos',
+      // Añadimos la URL de la imagen aquí para fácil configuración
+      profilePic: '/home/mateo/Documentos/PortafolioWeb/mateo.jpeg', 
       about: [
         'Soy un analista de datos apasionado por transformar información compleja en insights accionables. Con experiencia en el manejo de grandes volúmenes de datos, me especializo en crear visualizaciones claras y análisis profundos que impulsan la toma de decisiones estratégicas.',
         'Mi enfoque se centra en encontrar patrones ocultos en los datos y comunicar hallazgos de manera efectiva a equipos técnicos y no técnicos.'
@@ -91,7 +126,9 @@
       }
     };
 
-    // Helpers para crear elementos
+    // ----------------------------------------
+    // HELPERS DE DOM
+    // ----------------------------------------
     function el(tag, attrs = {}, children = []) {
       const node = document.createElement(tag);
       for (const k in attrs) {
@@ -103,12 +140,22 @@
       return node;
     }
 
-    // Construir header
+    // ----------------------------------------
+    // CONSTRUCCIÓN DE SECCIONES
+    // ----------------------------------------
+
+    // Construir header (MODIFICADO para incluir <img>)
     function buildHeader(data) {
+      const profileImg = el('img', {
+        src: data.profilePic,
+        alt: `Foto de perfil de ${data.name}`,
+        class: 'actual-profile-pic'
+      });
+      
       const header = el('header', {}, [
         el('div', {class: 'container'}, [
           el('div', {class: 'profile-section'}, [
-            el('div', {class: 'profile-img', html: '👨‍💻'}),
+            el('div', {class: 'profile-img'}, [profileImg]), /* INSERTAMOS LA IMAGEN */
             el('div', {class: 'profile-info'}, [
               el('h1', {}, [document.createTextNode(data.name)]),
               el('p', {}, [document.createTextNode(data.title)])
@@ -218,7 +265,9 @@
       ]);
     }
 
-    // Montar todo en #app
+    // ----------------------------------------
+    // INICIALIZACIÓN Y MONTAJE
+    // ----------------------------------------
     function mount() {
       const app = document.getElementById('app');
       app.appendChild(buildHeader(PORTFOLIO));
@@ -233,10 +282,15 @@
       app.appendChild(main);
       app.appendChild(buildFooter(PORTFOLIO.name));
 
+      // Iniciamos las interacciones después de que todo el DOM esté montado
       initInteractions();
+      
+      // Aseguramos que la primera sección visible tenga la clase
+      const firstSection = document.querySelector('main section');
+      if (firstSection) firstSection.classList.add('visible');
     }
 
-    // Interacciones (misma lógica que el original, implementada con delegación segura)
+    // Interacciones (misma lógica que el original)
     function initInteractions() {
       // Smooth scroll y active nav
       document.querySelectorAll('.nav-link').forEach(link => {
@@ -268,18 +322,6 @@
       }, observerOptions);
       document.querySelectorAll('section').forEach(s => observer.observe(s));
 
-      // Hover effects en cards (únicamente estilo inline para compatibilidad)
-      document.querySelectorAll('.skill-card, .project-card').forEach(card => {
-        card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-10px)');
-        card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
-      });
-
-      // Entrada animada del header
-      window.addEventListener('load', () => {
-        const profileSection = document.querySelector('.profile-section');
-        if (profileSection) profileSection.classList.add('animate-in');
-      });
-
       // Parallax suave
       window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
@@ -290,9 +332,6 @@
 
     // Inicializar montaje
     mount();
-
-    // Exponer datos globalmente para edición rápida desde consola (opcional)
-    window.PORTFOLIO = PORTFOLIO;
   </script>
 </body>
 </html>
