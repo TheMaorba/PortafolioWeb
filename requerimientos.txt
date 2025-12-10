@@ -1,0 +1,35 @@
+Quiero que 
+
+Dashboard Interactivo con Datos en Tiempo Real
+Crea un dashboard que consuma datos de APIs externas (por ejemplo, datos financieros, clima, o social media) y presente análisis visuales actualizados. Implementa endpoints que procesen y transformen datos usando Pandas/NumPy antes de enviarlos al frontend. Esto muestra tus habilidades en análisis de datos y arquitectura de APIs.
+
+
+Framework Backend
+FastAPI es ideal para tu perfil por su alto rendimiento, documentación automática y excelente integración con librerías de análisis de datos. Es perfecto para crear APIs que manejen procesamiento de datos asíncrono y proporciona validación automática con Pydantic.
+
+Dashboard Interactivo con Datos Públicos
+Implementa una tabla que almacene datos históricos de APIs públicas (clima, criptomonedas, datos gubernamentales) y muestra visualizaciones actualizadas. Usa las capacidades de tiempo real de Supabase para reflejar cambios automáticamente en el frontend sin necesidad de recargar
+
+
+Mostrar certificados como en la pagina del man de github
+
+
+6. Call-to-Action Más Fuerte
+
+Botón prominente "Descargar CV" en el header
+Disponibilidad actual (ej: "Disponible para nuevas oportunidades")
+
+7. Interactividad para Mostrar Habilidades
+
+Mini-demo de análisis de datos en la página
+Gráfico interactivo hecho con D3.js o Plotly
+Calculadora o herramienta útil
+
+
+4. Certificaciones y Educación
+
+Agregar sección dedicada con:
+
+Título universitario
+Certificaciones (AWS, Google Data Analytics, etc.)
+Cursos relevantes
